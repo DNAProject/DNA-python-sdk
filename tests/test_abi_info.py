@@ -26,7 +26,7 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 import json
 import unittest
 
-from ontology.contract.neo.abi.abi_info import AbiInfo
+from dna.contract.neo.abi.abi_info import AbiInfo
 
 
 class TestAbiInfo(unittest.TestCase):

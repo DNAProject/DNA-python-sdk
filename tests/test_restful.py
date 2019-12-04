@@ -25,14 +25,14 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.vm.vm_type import VmType
-from ontology.utils.neo import NeoData
+from dna.vm.vm_type import VmType
+from dna.utils.neo import NeoData
 from tests import sdk, acct4, acct3, acct1, acct2, not_panic_exception
 
-from ontology.common.address import Address
-from ontology.account.account import Account
-from ontology.exception.exception import SDKException
-from ontology.crypto.signature_scheme import SignatureScheme
+from dna.common.address import Address
+from dna.account.account import Account
+from dna.exception.exception import SDKException
+from dna.crypto.signature_scheme import SignatureScheme
 
 
 class TestRestful(unittest.TestCase):

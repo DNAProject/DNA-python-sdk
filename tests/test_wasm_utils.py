@@ -4,7 +4,7 @@
 #
 import unittest
 
-from ontology.utils.wasm import WasmData
+from dna.utils.wasm import WasmData
 
 
 class TestWasmVm(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestWasmVm(unittest.TestCase):
     def test_to_utf8(self):
         str_list = [
             'Hello, world!',
-            'Ontology',
+            'DNA',
             '!@#$%^&*()_+1234567890-=',
             '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
         ]

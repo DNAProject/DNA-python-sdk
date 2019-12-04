@@ -27,14 +27,14 @@ from Cryptodome.Random.random import choice
 
 from tests import password
 
-from ontology.utils import utils
-from ontology.crypto.curve import Curve
-from ontology.account.account import Account
-from ontology.wallet.account import AccountData
-from ontology.crypto.signature import Signature
-from ontology.exception.exception import SDKException
-from ontology.wallet.wallet_manager import WalletManager
-from ontology.crypto.signature_scheme import SignatureScheme
+from dna.utils import utils
+from dna.crypto.curve import Curve
+from dna.account.account import Account
+from dna.wallet.account import AccountData
+from dna.crypto.signature import Signature
+from dna.exception.exception import SDKException
+from dna.wallet.wallet_manager import WalletManager
+from dna.crypto.signature_scheme import SignatureScheme
 
 
 class TestWalletManager(unittest.TestCase):

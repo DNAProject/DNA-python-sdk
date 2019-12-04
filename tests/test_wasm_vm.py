@@ -24,11 +24,11 @@ import unittest
 
 from os import path
 
-from ontology.common.address import Address
-from ontology.contract.wasm.invoke_function import WasmInvokeFunction
-from ontology.utils.event import Event
-from ontology.utils.wasm import WasmData
-from ontology.vm.vm_type import VmType
+from dna.common.address import Address
+from dna.contract.wasm.invoke_function import WasmInvokeFunction
+from dna.utils.event import Event
+from dna.utils.wasm import WasmData
+from dna.vm.vm_type import VmType
 
 from tests import sdk, acct1, acct2, acct3, acct4
 

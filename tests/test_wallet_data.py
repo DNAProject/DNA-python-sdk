@@ -25,11 +25,11 @@ import unittest
 
 from Cryptodome.Random.random import randint, choice
 
-from ontology.common.define import DID_ONT
-from ontology.wallet.wallet import WalletData
-from ontology.wallet.identity import Identity
-from ontology.wallet.account import AccountData
-from ontology.exception.exception import SDKException
+from dna.common.define import DID_ONT
+from dna.wallet.wallet import WalletData
+from dna.wallet.identity import Identity
+from dna.wallet.account import AccountData
+from dna.exception.exception import SDKException
 
 
 class TestWalletData(unittest.TestCase):

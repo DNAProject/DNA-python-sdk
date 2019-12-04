@@ -22,7 +22,7 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.crypto.scrypt import Scrypt
+from dna.crypto.scrypt import Scrypt
 
 
 class TestScrypt(unittest.TestCase):

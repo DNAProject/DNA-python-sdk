@@ -22,9 +22,9 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.common.address import Address
-from ontology.contract.wasm.params_builder import WasmParamsBuilder, WASM_INT128_MAX, WASM_INT128_MIN
-from ontology.exception.exception import SDKException
+from dna.common.address import Address
+from dna.contract.wasm.params_builder import WasmParamsBuilder, WASM_INT128_MAX, WASM_INT128_MIN
+from dna.exception.exception import SDKException
 
 
 class TestWasmVm(unittest.TestCase):
@@ -80,7 +80,7 @@ class TestWasmVm(unittest.TestCase):
     def test_push_pop_str(self):
         str_list = [
             'Hello, world!',
-            'Ontology',
+            'DNA',
             '!@#$%^&*()_+1234567890-=',
             '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
         ]

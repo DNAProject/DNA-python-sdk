@@ -23,7 +23,7 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 import unittest
 from time import time, sleep
 
-from ontology.exception.exception import SDKException
+from dna.exception.exception import SDKException
 from tests import sdk, identity1, identity2, identity2_ctrl_acct, acct1, not_panic_exception
 
 

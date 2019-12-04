@@ -26,7 +26,7 @@ from os import path
 
 from tests import sdk, password
 
-from ontology.crypto.signature_handler import SignatureHandler
+from dna.crypto.signature_handler import SignatureHandler
 
 
 class TestSigSvr(unittest.TestCase):

@@ -24,13 +24,13 @@ import unittest
 
 from tests import sdk, acct4, acct3, acct2, acct1, not_panic_exception
 
-from ontology.sdk import Ontology
-from ontology.utils.neo import NeoData
-from ontology.vm.vm_type import VmType
-from ontology.common.address import Address
-from ontology.account.account import Account
-from ontology.exception.exception import SDKException
-from ontology.crypto.signature_scheme import SignatureScheme
+from dna.sdk import DNA
+from dna.utils.neo import NeoData
+from dna.vm.vm_type import VmType
+from dna.common.address import Address
+from dna.account.account import Account
+from dna.exception.exception import SDKException
+from dna.crypto.signature_scheme import SignatureScheme
 
 
 class TestAioRestful(unittest.TestCase):
@@ -41,7 +41,7 @@ class TestAioRestful(unittest.TestCase):
                              acct4.get_address_base58(), multi_address.b58encode()]
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_version(self):
         version = await sdk.aio_restful.get_version()
         self.assertTrue(isinstance(version, str))
@@ -49,19 +49,19 @@ class TestAioRestful(unittest.TestCase):
             self.assertIn('v', version)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_connection_count(self):
         count = await sdk.aio_restful.get_connection_count()
         self.assertGreaterEqual(count, 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_block_height(self):
         height = await sdk.aio_restful.get_block_height()
         self.assertGreater(height, 1)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_block_height_by_tx_hash(self):
         tx_hash_list = ['1ebde66ec3f309dad20a63f8929a779162a067c36ce7b00ffbe8f4cfc8050d79',
                         '029b0a7f058cca73ed05651d7b5536eff8be5271a39452e91a1e758d0c36aecb',
@@ -77,13 +77,13 @@ class TestAioRestful(unittest.TestCase):
             self.assertEqual(height_list[index], height)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_gas_price(self):
         price = await sdk.aio_restful.get_gas_price()
         self.assertGreater(price, 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_network_id(self):
         network_id = await sdk.aio_restful.get_network_id()
         self.assertEqual(network_id, 2)
@@ -95,21 +95,21 @@ class TestAioRestful(unittest.TestCase):
             sdk.aio_restful.connect_to_test_net()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_block_by_hash(self):
         block_hash = "1aae9881945b42a30072c608674687c6d9845b29c8c34f91c65081d6bc631868"
         block = await sdk.aio_restful.get_block_by_hash(block_hash)
         self.assertEqual(block['Hash'], block_hash)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_block_by_height(self):
         height = 0
         block = await sdk.aio_restful.get_block_by_height(height)
         self.assertEqual(block['Header']['Height'], height)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_balance(self):
         pub_keys = [acct1.get_public_key_bytes(), acct2.get_public_key_bytes(), acct3.get_public_key_bytes()]
         multi_address = Address.from_multi_pub_keys(2, pub_keys)
@@ -122,20 +122,20 @@ class TestAioRestful(unittest.TestCase):
             self.assertGreaterEqual(balance['ONG'], 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_unbound_ong(self):
         for address in self.address_list:
             self.assertEqual(await sdk.aio_restful.get_unbound_ong(address), sdk.native_vm.ong().unbound(address))
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_grant_ong(self):
         b58_address = 'ANH5bHrrt111XwNEnuPZj6u95Dd6u7G4D6'
         grant_ong = await sdk.aio_restful.get_grant_ong(b58_address)
         self.assertGreaterEqual(grant_ong, 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_smart_contract(self):
         address_list = ['1ddbb682743e9d9e2b71ff419e97a9358c5c4ee9', '0100000000000000000000000000000000000000']
         info_list = [[VmType.Neo, 'DINGXIN', 'A sample of OEP4'],
@@ -154,7 +154,7 @@ class TestAioRestful(unittest.TestCase):
             sdk.aio_restful.connect_to_test_net()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_smart_contract_event_by_height(self):
         height_list = [0, 1309737]
         len_list = [10, 0]
@@ -163,7 +163,7 @@ class TestAioRestful(unittest.TestCase):
             self.assertEqual(len_list[index], len(event_list))
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_storage(self):
         contract_address = "0100000000000000000000000000000000000000"
         key = "746f74616c537570706c79"
@@ -172,21 +172,21 @@ class TestAioRestful(unittest.TestCase):
         self.assertEqual(1000000000, value)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_allowance(self):
         base58_address = 'AKDFapcoUhewN9Kaj6XhHusurfHzUiZqUA'
         allowance = await sdk.aio_restful.get_allowance('ong', base58_address, base58_address)
         self.assertEqual(allowance, '0')
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_transaction_by_tx_hash(self):
         tx_hash = "65d3b2d3237743f21795e344563190ccbe50e9930520b8525142b075433fdd74"
         tx = await sdk.aio_restful.get_transaction_by_tx_hash(tx_hash)
         self.assertEqual(tx['Hash'], tx_hash)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_send_raw_transaction(self):
         b58_from_address = acct1.get_address_base58()
         b58_to_address = 'AW352JufVwuZReSt7SCQpbYqrWeuERUNJr'
@@ -197,7 +197,7 @@ class TestAioRestful(unittest.TestCase):
         self.assertEqual(tx_hash, tx.hash256_explorer())
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_send_raw_transaction_pre_exec(self):
         private_key = '75de8489fcb2dcaf2ef3cd607feffde18789de7da129b5e97c81e001793cb7cf'
         acct = Account(private_key, SignatureScheme.SHA256withECDSA)
@@ -211,7 +211,7 @@ class TestAioRestful(unittest.TestCase):
         self.assertEqual(1, result['State'])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_merkle_proof(self):
         pre_tx_root = 0
         tx_hash_list = ['12943957b10643f04d89938925306fa342cec9d32925f5bd8e9ea7ce912d16d3',
@@ -231,13 +231,13 @@ class TestAioRestful(unittest.TestCase):
                 pre_tx_root = merkle_proof['TransactionsRoot']
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_memory_pool_tx_count(self):
         tx_count = await sdk.aio_restful.get_memory_pool_tx_count()
         self.assertGreaterEqual(tx_count, [0, 0])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_memory_pool_tx_state(self):
         tx_hash = '0000000000000000000000000000000000000000000000000000000000000000'
         with self.assertRaises(SDKException):

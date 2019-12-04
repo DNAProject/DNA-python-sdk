@@ -27,16 +27,16 @@ from Cryptodome.Random.random import randint
 
 from tests import sdk, acct2, acct3, acct4, password, not_panic_exception
 
-from ontology.utils import utils
-from ontology.crypto.curve import Curve
-from ontology.utils.neo import NeoData
-from ontology.utils.event import Event
-from ontology.common.define import DID_ONT
-from ontology.account.account import Account
-from ontology.crypto.signature import Signature
-from ontology.contract.native.ontid import Attribute
-from ontology.exception.exception import SDKException
-from ontology.crypto.signature_scheme import SignatureScheme
+from dna.utils import utils
+from dna.crypto.curve import Curve
+from dna.utils.neo import NeoData
+from dna.utils.event import Event
+from dna.common.define import DID_ONT
+from dna.account.account import Account
+from dna.crypto.signature import Signature
+from dna.contract.native.ontid import Attribute
+from dna.exception.exception import SDKException
+from dna.crypto.signature_scheme import SignatureScheme
 
 
 class TestOntId(unittest.TestCase):

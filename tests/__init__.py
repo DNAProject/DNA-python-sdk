@@ -25,10 +25,10 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 from os import path, environ
 
-from ontology.exception.exception import SDKException
-from ontology.sdk import Ontology
+from dna.exception.exception import SDKException
+from dna.sdk import DNA
 
-sdk = Ontology()
+sdk = DNA()
 sdk.rpc.connect_to_test_net()
 sdk.aio_rpc.connect_to_test_net()
 sdk.restful.connect_to_test_net()

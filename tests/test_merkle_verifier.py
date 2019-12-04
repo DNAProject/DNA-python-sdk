@@ -24,7 +24,7 @@ import unittest
 
 from tests import not_panic_exception
 
-from ontology.merkle.merkle_verifier import MerkleVerifier
+from dna.merkle.merkle_verifier import MerkleVerifier
 
 
 class TestMerkleVerifier(unittest.TestCase):

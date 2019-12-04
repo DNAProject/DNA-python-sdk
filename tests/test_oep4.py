@@ -25,8 +25,8 @@ import unittest
 
 from Cryptodome.Random.random import randint
 
-from ontology.utils.event import Event
-from ontology.utils.neo import NeoData
+from dna.utils.event import Event
+from dna.utils.neo import NeoData
 from tests import sdk, acct1, acct2, acct3, acct4, not_panic_exception
 
 

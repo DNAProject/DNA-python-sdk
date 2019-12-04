@@ -22,7 +22,7 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.crypto.digest import Digest
+from dna.crypto.digest import Digest
 
 
 class TestDigest(unittest.TestCase):

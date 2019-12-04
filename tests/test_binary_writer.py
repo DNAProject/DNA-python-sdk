@@ -22,9 +22,9 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.io.binary_writer import BinaryWriter
+from dna.io.binary_writer import BinaryWriter
 
-from ontology.io.memory_stream import StreamManager
+from dna.io.memory_stream import StreamManager
 
 
 class TestBinaryWriter(unittest.TestCase):

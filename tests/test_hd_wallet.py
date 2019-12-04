@@ -22,12 +22,12 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.account.account import Account
-from ontology.crypto.mnemonic import Mnemonic
-from ontology.crypto.hd_public_key import HDPublicKey
-from ontology.crypto.hd_private_key import HDPrivateKey
-from ontology.crypto.signature_handler import SignatureHandler
-from ontology.crypto.signature_scheme import SignatureScheme
+from dna.account.account import Account
+from dna.crypto.mnemonic import Mnemonic
+from dna.crypto.hd_public_key import HDPublicKey
+from dna.crypto.hd_private_key import HDPrivateKey
+from dna.crypto.signature_handler import SignatureHandler
+from dna.crypto.signature_scheme import SignatureScheme
 
 
 class TestHDWallet(unittest.TestCase):

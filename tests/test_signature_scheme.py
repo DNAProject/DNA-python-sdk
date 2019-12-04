@@ -22,8 +22,8 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.exception.exception import SDKException
-from ontology.crypto.signature_scheme import SignatureScheme
+from dna.exception.exception import SDKException
+from dna.crypto.signature_scheme import SignatureScheme
 
 
 class SignatureSchemeTest(unittest.TestCase):

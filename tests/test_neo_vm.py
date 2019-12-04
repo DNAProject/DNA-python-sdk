@@ -24,12 +24,12 @@ import unittest
 
 from time import sleep
 
-from ontology.utils.event import Event
-from ontology.utils.neo import NeoData
+from dna.utils.event import Event
+from dna.utils.neo import NeoData
 from tests import sdk, acct1, acct2
 
-from ontology.exception.exception import SDKException
-from ontology.contract.neo.invoke_function import NeoInvokeFunction
+from dna.exception.exception import SDKException
+from dna.contract.neo.invoke_function import NeoInvokeFunction
 
 
 class TestNeoVm(unittest.TestCase):
@@ -61,7 +61,7 @@ class TestNeoVm(unittest.TestCase):
 
     def test_invoke_transaction(self):
         """
-        from ontology.interop.System.Runtime import Notify
+        from dna.interop.System.Runtime import Notify
 
         def main(operation, args):
             if operation == 'hello':
@@ -86,12 +86,12 @@ class TestNeoVm(unittest.TestCase):
         contract_address = sdk.neo_vm.address_from_avm_code(avm_code).hex()
         self.assertEqual('f7b9970fd6def5229c1f30ad15372bd1c20bb260', contract_address)
         hello = NeoInvokeFunction('hello')
-        hello.set_params_value('ontology')
+        hello.set_params_value('dna')
         tx = sdk.neo_vm.make_invoke_transaction(contract_address, hello, acct1.get_address_base58(), 500, 20000)
         response = sdk.rpc.send_raw_transaction_pre_exec(tx)
         self.assertEqual(1, response['State'])
         response['Result'] = NeoData.to_utf8_str(response['Result'])
-        self.assertEqual('ontology', response['Result'])
+        self.assertEqual('dna', response['Result'])
         tx.sign_transaction(acct1)
         tx_hash = sdk.rpc.send_raw_transaction(tx)
         sleep(10)
@@ -102,7 +102,7 @@ class TestNeoVm(unittest.TestCase):
                     notify = Event.get_notify_by_contract_address(event, contract_address)
                     self.assertEqual(contract_address, notify['ContractAddress'])
                     self.assertEqual('hello', NeoData.to_utf8_str(notify['States'][0]))
-                    self.assertEqual('ontology', NeoData.to_utf8_str(notify['States'][1]))
+                    self.assertEqual('dna', NeoData.to_utf8_str(notify['States'][1]))
                     break
             except SDKException:
                 continue

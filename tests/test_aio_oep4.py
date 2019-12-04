@@ -25,9 +25,9 @@ import unittest
 
 from Cryptodome.Random.random import randint
 
-from ontology.sdk import Ontology
-from ontology.utils.event import Event
-from ontology.utils.neo import NeoData
+from dna.sdk import Ontology
+from dna.utils.event import Event
+from dna.utils.neo import NeoData
 from tests import sdk, acct1, acct2, acct3, acct4, not_panic_exception
 
 networks = [sdk.aio_rpc, sdk.aio_restful, sdk.websocket]
@@ -40,7 +40,7 @@ class TestOep4(unittest.TestCase):
         sdk.default_network = sdk.rpc
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_query_name(self):
         try:
             for network in networks:
@@ -51,7 +51,7 @@ class TestOep4(unittest.TestCase):
             sdk.default_aio_network = sdk.aio_rpc
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_symbol(self):
         try:
             for network in networks:
@@ -62,7 +62,7 @@ class TestOep4(unittest.TestCase):
             sdk.default_aio_network = sdk.aio_rpc
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_decimal(self):
         contract_list = ['1ddbb682743e9d9e2b71ff419e97a9358c5c4ee9', '165b1227311d47c22cd073ef8f285d3bddc858ca',
                          '8fecd2740b10a7410026774cc1f99fe14860873b']
@@ -77,7 +77,7 @@ class TestOep4(unittest.TestCase):
             sdk.default_aio_network = sdk.aio_rpc
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_init(self):
         oep4 = sdk.neo_vm.aio_oep4()
         oep4.hex_contract_address = contract_address
@@ -89,7 +89,7 @@ class TestOep4(unittest.TestCase):
         self.assertEqual('Already initialized!', NeoData.to_utf8_str(notify['States']))
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_total_supply(self):
         oep4 = sdk.neo_vm.aio_oep4()
         oep4.hex_contract_address = contract_address
@@ -103,7 +103,7 @@ class TestOep4(unittest.TestCase):
             sdk.default_aio_network.connect_to_test_net()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_transfer(self):
         oep4 = sdk.neo_vm.aio_oep4()
         oep4.hex_contract_address = contract_address
@@ -120,7 +120,7 @@ class TestOep4(unittest.TestCase):
         self.assertEqual(value, notify['States'][3])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_balance_of(self):
         oep4 = sdk.neo_vm.aio_oep4()
         oep4.hex_contract_address = contract_address
@@ -132,7 +132,7 @@ class TestOep4(unittest.TestCase):
         self.assertGreaterEqual(balance, 1)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_transfer_multi(self):
         oep4 = sdk.neo_vm.aio_oep4()
         oep4.hex_contract_address = contract_address
@@ -167,7 +167,7 @@ class TestOep4(unittest.TestCase):
             self.assertEqual(value_list[index], notify['States'][3])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_approve(self):
         oep4 = sdk.neo_vm.aio_oep4()
         oep4.hex_contract_address = contract_address
@@ -185,7 +185,7 @@ class TestOep4(unittest.TestCase):
         self.assertEqual(amount, states[3])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_allowance(self):
         oep4 = sdk.neo_vm.aio_oep4()
         oep4.hex_contract_address = contract_address
@@ -193,7 +193,7 @@ class TestOep4(unittest.TestCase):
         self.assertGreaterEqual(allowance, 1)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_transfer_from(self):
         oep4 = sdk.neo_vm.aio_oep4()
         oep4.hex_contract_address = contract_address

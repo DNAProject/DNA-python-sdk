@@ -28,10 +28,10 @@ import unittest
 
 from tests import password
 
-from ontology.utils import utils
-from ontology.account.account import Account
-from ontology.wallet.account import AccountData
-from ontology.crypto.signature_scheme import SignatureScheme
+from dna.utils import utils
+from dna.account.account import Account
+from dna.wallet.account import AccountData
+from dna.crypto.signature_scheme import SignatureScheme
 
 
 class TestAccount(unittest.TestCase):

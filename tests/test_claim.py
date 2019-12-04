@@ -24,10 +24,10 @@ import unittest
 
 from time import time, sleep
 
-from ontology.claim.claim import Claim
-from ontology.claim.payload import Payload
-from ontology.exception.exception import SDKException
-from ontology.claim.header import Header, ClmAlg, ClmType
+from dna.claim.claim import Claim
+from dna.claim.payload import Payload
+from dna.exception.exception import SDKException
+from dna.claim.header import Header, ClmAlg, ClmType
 from tests import sdk, acct1, identity1, identity2, identity2_ctrl_acct, not_panic_exception
 
 

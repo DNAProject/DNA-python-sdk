@@ -22,8 +22,8 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.crypto.ecies import ECIES
-from ontology.exception.exception import SDKException
+from dna.crypto.ecies import ECIES
+from dna.exception.exception import SDKException
 
 
 class EciesTest(unittest.TestCase):

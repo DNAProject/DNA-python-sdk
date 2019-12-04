@@ -26,10 +26,10 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 import time
 import unittest
 
-from ontology.vm.vm_type import VmType
-from ontology.utils.neo import NeoData
-from ontology.common.address import Address
-from ontology.exception.exception import SDKException
+from dna.vm.vm_type import VmType
+from dna.utils.neo import NeoData
+from dna.common.address import Address
+from dna.exception.exception import SDKException
 
 from tests import sdk, acct1, acct2, acct3, acct4, not_panic_exception
 

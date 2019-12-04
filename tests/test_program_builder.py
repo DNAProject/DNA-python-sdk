@@ -25,7 +25,7 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.core.program import ProgramBuilder
+from dna.core.program import ProgramBuilder
 
 
 class TestProgramBuilder(unittest.TestCase):

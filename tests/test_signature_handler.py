@@ -24,8 +24,8 @@ import unittest
 
 from tests import sdk, acct1, acct2
 
-from ontology.crypto.signature_scheme import SignatureScheme
-from ontology.crypto.signature_handler import SignatureHandler
+from dna.crypto.signature_scheme import SignatureScheme
+from dna.crypto.signature_handler import SignatureHandler
 
 
 class TestSignatureHandler(unittest.TestCase):

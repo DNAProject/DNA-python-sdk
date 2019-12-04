@@ -25,7 +25,7 @@ import unittest
 from Cryptodome import Random
 from Cryptodome.Cipher import AES
 
-from ontology.crypto.aes_handler import AESHandler
+from dna.crypto.aes_handler import AESHandler
 
 
 class TestAesHandler(unittest.TestCase):

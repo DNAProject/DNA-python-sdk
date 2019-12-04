@@ -25,13 +25,13 @@ import unittest
 
 from tests import sdk, acct1, acct2, acct3, acct4, not_panic_exception
 
-from ontology.sdk import Ontology
-from ontology.utils.neo import NeoData
-from ontology.utils.event import Event
-from ontology.common.address import Address
-from ontology.account.account import Account
-from ontology.exception.exception import SDKException
-from ontology.crypto.signature_scheme import SignatureScheme
+from dna.sdk import DNA
+from dna.utils.neo import NeoData
+from dna.utils.event import Event
+from dna.common.address import Address
+from dna.account.account import Account
+from dna.exception.exception import SDKException
+from dna.crypto.signature_scheme import SignatureScheme
 
 
 class TestWebsocketClient(unittest.TestCase):
@@ -42,7 +42,7 @@ class TestWebsocketClient(unittest.TestCase):
                              acct4.get_address_base58(), multi_address.b58encode()]
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_heartbeat(self):
         response = await sdk.websocket.send_heartbeat()
         await sdk.websocket.close_connect()
@@ -53,7 +53,7 @@ class TestWebsocketClient(unittest.TestCase):
         self.assertEqual(False, response['SubscribeBlockTxHashs'])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_subscribe(self):
         hex_contract_address = '1ddbb682743e9d9e2b71ff419e97a9358c5c4ee9'
         oep4 = sdk.neo_vm.aio_oep4(hex_contract_address)
@@ -83,21 +83,21 @@ class TestWebsocketClient(unittest.TestCase):
             await sdk.websocket.close_connect()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_connection_count(self):
         response = await sdk.websocket.get_connection_count()
         await sdk.websocket.close_connect()
         self.assertGreater(response, 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_session_count(self):
         count = await sdk.websocket.get_session_count()
         await sdk.websocket.close_connect()
         self.assertGreaterEqual(count, 1)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_balance(self):
         pub_keys = [acct1.get_public_key_bytes(), acct2.get_public_key_bytes(), acct3.get_public_key_bytes()]
         multi_address = Address.from_multi_pub_keys(2, pub_keys)
@@ -110,7 +110,7 @@ class TestWebsocketClient(unittest.TestCase):
             self.assertGreaterEqual(balance['ONG'], 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_storage(self):
         hex_contract_address = '0100000000000000000000000000000000000000'
         key = '746f74616c537570706c79'
@@ -120,7 +120,7 @@ class TestWebsocketClient(unittest.TestCase):
         self.assertEqual(1000000000, value)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_contract(self):
         hex_contract_address = '0100000000000000000000000000000000000000'
         response = await sdk.websocket.get_contract(hex_contract_address)
@@ -136,7 +136,7 @@ class TestWebsocketClient(unittest.TestCase):
         await sdk.websocket.close_connect()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_contract_event_by_tx_hash(self):
         tx_hash = '7bc2dd4693996133c15e6349c3f8dd1edeba2fcd3219c8bc2b854c939337c8ff'
         response = await sdk.websocket.get_contract_event_by_tx_hash(tx_hash)
@@ -146,7 +146,7 @@ class TestWebsocketClient(unittest.TestCase):
         self.assertEqual(1, len(response['Notify']))
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_contract_event_by_height(self):
         height = 0
         event_list = await sdk.websocket.get_contract_event_by_height(height)
@@ -162,7 +162,7 @@ class TestWebsocketClient(unittest.TestCase):
         await sdk.websocket.close_connect()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_block_height(self):
         try:
             height = await sdk.websocket.get_block_height()
@@ -171,7 +171,7 @@ class TestWebsocketClient(unittest.TestCase):
             await sdk.websocket.close_connect()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_block_height_by_tx_hash(self):
         tx_hash_list = ['1ebde66ec3f309dad20a63f8929a779162a067c36ce7b00ffbe8f4cfc8050d79',
                         '029b0a7f058cca73ed05651d7b5536eff8be5271a39452e91a1e758d0c36aecb',
@@ -190,7 +190,7 @@ class TestWebsocketClient(unittest.TestCase):
             await sdk.websocket.close_connect()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_block_hash_by_height(self):
         try:
             response = await sdk.websocket.get_block_hash_by_height(1024)
@@ -205,7 +205,7 @@ class TestWebsocketClient(unittest.TestCase):
         return response
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_block_by_height(self):
         try:
             height = 1024
@@ -216,7 +216,7 @@ class TestWebsocketClient(unittest.TestCase):
             await sdk.websocket.close_connect()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_block_by_hash(self):
         try:
             block_hash = '2e36db16c8faf0ea0f84172256e79b78a3d8d076114fe8aaa302794668b9396f'
@@ -227,7 +227,7 @@ class TestWebsocketClient(unittest.TestCase):
             await sdk.websocket.close_connect()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_unbound_ong(self):
         try:
             for address in self.address_list:
@@ -236,7 +236,7 @@ class TestWebsocketClient(unittest.TestCase):
             await sdk.websocket.close_connect()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_send_raw_transaction(self):
         b58_from_address = acct1.get_address_base58()
         b58_to_address = acct2.get_address_base58()
@@ -259,7 +259,7 @@ class TestWebsocketClient(unittest.TestCase):
         self.assertEqual('0200000000000000000000000000000000000000', event['Notify'][1]['ContractAddress'])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_send_raw_transaction_pre_exec(self):
         private_key = '75de8489fcb2dcaf2ef3cd607feffde18789de7da129b5e97c81e001793cb7cf'
         acct = Account(private_key, SignatureScheme.SHA256withECDSA)
@@ -272,7 +272,7 @@ class TestWebsocketClient(unittest.TestCase):
         self.assertEqual(1, response['State'])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_merkle_proof(self):
         pre_tx_root = 0
         tx_hash_list = ['12943957b10643f04d89938925306fa342cec9d32925f5bd8e9ea7ce912d16d3',

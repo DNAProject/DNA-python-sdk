@@ -22,8 +22,8 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.utils.neo import NeoData
-from ontology.contract.neo.params_builder import NeoParamsBuilder
+from dna.utils.neo import NeoData
+from dna.contract.neo.params_builder import NeoParamsBuilder
 
 
 class TestContractDataParser(unittest.TestCase):

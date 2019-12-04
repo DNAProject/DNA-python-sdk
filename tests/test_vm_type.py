@@ -22,9 +22,9 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.exception.exception import SDKException
+from dna.exception.exception import SDKException
 
-from ontology.vm.vm_type import VmType
+from dna.vm.vm_type import VmType
 
 
 class TestVmType(unittest.TestCase):

@@ -26,8 +26,8 @@ import unittest
 
 from Cryptodome.Random.random import randint
 
-from ontology.sdk import Ontology
-from ontology.utils.event import Event
+from dna.sdk import Ontology
+from dna.utils.event import Event
 
 from tests import sdk, acct1, acct2, acct3, acct4, not_panic_exception
 
@@ -38,25 +38,25 @@ class TestAioOng(unittest.TestCase):
         self.assertEqual(ong_address, sdk.native_vm.aio_ong().contract_address.hex())
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_query_name(self):
         token_name = await sdk.native_vm.aio_ong().name()
         self.assertEqual('ONG Token', token_name)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_query_symbol(self):
         token_symbol = await sdk.native_vm.aio_ong().symbol()
         self.assertEqual('ONG', token_symbol)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_query_decimals(self):
         decimals = await sdk.native_vm.aio_ong().decimals()
         self.assertEqual(9, decimals)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_unbound_ong(self):
         address_list = [acct1.get_address_base58(), acct2.get_address_base58(), acct3.get_address_base58(),
                         acct4.get_address_base58()]
@@ -65,7 +65,7 @@ class TestAioOng(unittest.TestCase):
             self.assertGreaterEqual(unbound_ong, 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_balance_of(self):
         address_list = [acct1.get_address_base58(), acct2.get_address_base58(), acct3.get_address_base58(),
                         acct4.get_address_base58()]
@@ -75,7 +75,7 @@ class TestAioOng(unittest.TestCase):
             self.assertGreaterEqual(balance, 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_query_allowance(self):
         ong = sdk.native_vm.aio_ong()
         if sys.version_info >= (3, 7):
@@ -92,7 +92,7 @@ class TestAioOng(unittest.TestCase):
             self.assertGreaterEqual(await task, 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_transfer(self):
         amount, gas_price, gas_limit = 1, 500, 20000
         tx_hash = await sdk.native_vm.aio_ong().transfer(acct1, acct2.get_address(), amount, acct4, gas_price,
@@ -110,7 +110,7 @@ class TestAioOng(unittest.TestCase):
         self.assertEqual(gas_price * gas_limit, notify[1]['States'][3])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_transfer_from_tx(self):
         acct2_b58_address = acct2.get_address_base58()
         tx_hash = await sdk.native_vm.aio_ong().transfer_from(acct2, acct1.get_address(), acct2_b58_address, 1,
@@ -122,7 +122,7 @@ class TestAioOng(unittest.TestCase):
         self.assertEqual(2, len(notify_list))
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_withdraw_ong(self):
         amount, gas_price, gas_limit = 1, 500, 20000
         tx_hash = await sdk.native_vm.aio_ong().withdraw(acct1, acct1.get_address(), amount, acct2, gas_price,
@@ -140,13 +140,13 @@ class TestAioOng(unittest.TestCase):
         self.assertEqual(gas_price * gas_limit, notify[1]['States'][3])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_approve(self):
         tx_hash = await sdk.native_vm.aio_ong().approve(acct1, acct2.get_address(), 10, acct2, 500, 20000)
         self.assertEqual(64, len(tx_hash))
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_transfer_from(self):
         sdk.rpc.connect_to_test_net()
         b58_from_address = acct1.get_address_base58()

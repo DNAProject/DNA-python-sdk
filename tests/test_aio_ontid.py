@@ -25,18 +25,18 @@ import unittest
 
 from Cryptodome.Random.random import randint
 
-from ontology.sdk import Ontology
+from dna.sdk import Ontology
 from tests import sdk, acct2, acct3, acct4, password, not_panic_exception
 
-from ontology.utils import utils
-from ontology.crypto.curve import Curve
-from ontology.utils.neo import NeoData
-from ontology.utils.event import Event
-from ontology.account.account import Account
-from ontology.crypto.signature import Signature
-from ontology.exception.exception import SDKException
-from ontology.crypto.signature_scheme import SignatureScheme
-from ontology.contract.native.ontid import Attribute
+from dna.utils import utils
+from dna.crypto.curve import Curve
+from dna.utils.neo import NeoData
+from dna.utils.event import Event
+from dna.account.account import Account
+from dna.crypto.signature import Signature
+from dna.exception.exception import SDKException
+from dna.crypto.signature_scheme import SignatureScheme
+from dna.contract.native.ontid import Attribute
 
 
 class TestAioOntId(unittest.TestCase):
@@ -62,7 +62,7 @@ class TestAioOntId(unittest.TestCase):
         self.assertEqual(ont_id, ddo.get('OntId', ''))
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_public_keys(self):
         ont_id_list = ['did:ont:APywVQ2UKBtitqqJQ9JrpNeY8VFAnrZXiR', 'did:ont:ANDfjwrUroaVtvBguDtrWKRMyxFwvVwnZD']
         for ont_id in ont_id_list:
@@ -75,7 +75,7 @@ class TestAioOntId(unittest.TestCase):
             sdk.default_aio_network.connect_to_test_net()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_get_ddo(self):
         ont_id = 'did:ont:AazEvfQPcQ2GEFFPLF1ZLwQ7K5jDn81hve'
         try:
@@ -90,7 +90,7 @@ class TestAioOntId(unittest.TestCase):
             sdk.default_aio_network.connect_to_test_net()
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_registry_ont_id(self):
         ont_id = sdk.native_vm.aio_ont_id()
         try:
@@ -152,7 +152,7 @@ class TestAioOntId(unittest.TestCase):
             self.assertIn('public key has already been revoked', e.args[1])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_add_and_remove_public_key(self):
         identity = sdk.wallet_manager.create_identity(password)
         ctrl_acct = sdk.wallet_manager.get_control_account_by_index(identity.ont_id, 0, password)
@@ -175,7 +175,7 @@ class TestAioOntId(unittest.TestCase):
         await self.check_duplicated_revoke_pk(identity.ont_id, ctrl_acct, hex_new_public_key)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_add_and_remove_attribute(self):
         ont_id = sdk.native_vm.aio_ont_id()
         identity = sdk.wallet_manager.create_identity(password)
@@ -216,7 +216,7 @@ class TestAioOntId(unittest.TestCase):
             self.assertIn('attribute not exist', e.args[1])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_add_recovery(self):
         identity = sdk.wallet_manager.create_identity(password)
         ctrl_acct = sdk.wallet_manager.get_control_account_by_index(identity.ont_id, 0, password)
@@ -300,7 +300,7 @@ class TestAioOntId(unittest.TestCase):
             self.assertIn('no authorization', e.args[1])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_change_recovery(self):
         identity = sdk.wallet_manager.create_identity(password)
         ctrl_acct = sdk.wallet_manager.get_control_account_by_index(identity.ont_id, 0, password)
@@ -359,7 +359,7 @@ class TestAioOntId(unittest.TestCase):
         self.assertEqual(new_recovery.get_address_hex(little_endian=False), notify['States'][3])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_verify_signature(self):
         identity = sdk.wallet_manager.create_identity(password)
         ctrl_acct = sdk.wallet_manager.get_control_account_by_index(identity.ont_id, 0, password)

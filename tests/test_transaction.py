@@ -25,12 +25,12 @@ import unittest
 
 from Cryptodome.Random.random import randint
 
-from ontology.utils.event import Event
+from dna.utils.event import Event
 from tests import acct1, acct2, acct3, sdk, not_panic_exception
 
-from ontology.utils import utils
-from ontology.common.address import Address
-from ontology.core.transaction import Transaction
+from dna.utils import utils
+from dna.common.address import Address
+from dna.core.transaction import Transaction
 
 
 class TestTransaction(unittest.TestCase):

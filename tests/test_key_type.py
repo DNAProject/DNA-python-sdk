@@ -22,8 +22,8 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.crypto.key_type import KeyType
-from ontology.crypto.signature_scheme import SignatureScheme
+from dna.crypto.key_type import KeyType
+from dna.crypto.signature_scheme import SignatureScheme
 
 
 class TestKeyType(unittest.TestCase):

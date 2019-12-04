@@ -22,9 +22,9 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.exception.error_code import ErrorCode
-from ontology.exception.exception import SDKException
-from ontology.exception.exception import SDKRuntimeException
+from dna.exception.error_code import ErrorCode
+from dna.exception.exception import SDKException
+from dna.exception.exception import SDKRuntimeException
 
 
 class TestSDKException(unittest.TestCase):

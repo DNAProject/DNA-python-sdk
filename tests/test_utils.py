@@ -22,8 +22,8 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.utils import utils
-from ontology.utils.neo import NeoData
+from dna.utils import utils
+from dna.utils.neo import NeoData
 
 
 class TestUtil(unittest.TestCase):

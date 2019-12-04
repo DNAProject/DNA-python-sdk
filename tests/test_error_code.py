@@ -22,7 +22,7 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.exception.error_code import ErrorCode
+from dna.exception.error_code import ErrorCode
 
 
 class TestErrorCode(unittest.TestCase):

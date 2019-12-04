@@ -22,8 +22,8 @@ along with The ontology.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 
-from ontology.crypto.curve import Curve
-from ontology.exception.exception import SDKException
+from dna.crypto.curve import Curve
+from dna.exception.exception import SDKException
 
 
 class CurveTest(unittest.TestCase):

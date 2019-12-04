@@ -29,8 +29,8 @@ import unittest
 
 from Cryptodome.Random.random import randint
 
-from ontology.sdk import Ontology
-from ontology.utils.event import Event
+from dna.sdk import Ontology
+from dna.utils.event import Event
 
 from tests import sdk, acct1, acct2, acct3, acct4, not_panic_exception
 
@@ -45,25 +45,25 @@ class TestAioOnt(unittest.TestCase):
         self.assertEqual(ont_address, sdk.native_vm.aio_ont().contract_address.hex())
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_query_name(self):
         token_name = await sdk.native_vm.aio_ont().name()
         self.assertEqual('ONT Token', token_name)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_query_symbol(self):
         token_symbol = await sdk.native_vm.aio_ont().symbol()
         self.assertEqual('ONT', token_symbol)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_query_decimals(self):
         decimals = await sdk.native_vm.aio_ont().decimals()
         self.assertEqual(0, decimals)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_balance_of(self):
         address_list = [acct1.get_address_base58(), acct2.get_address_base58(), acct3.get_address_base58(),
                         acct4.get_address_base58()]
@@ -73,7 +73,7 @@ class TestAioOnt(unittest.TestCase):
             self.assertGreaterEqual(balance, 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_query_allowance(self):
         ont = sdk.native_vm.aio_ont()
         if sys.version_info >= (3, 7):
@@ -90,7 +90,7 @@ class TestAioOnt(unittest.TestCase):
             self.assertGreaterEqual(await task, 0)
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_transfer(self):
         amount = 1
         ont = sdk.native_vm.aio_ont()
@@ -108,7 +108,7 @@ class TestAioOnt(unittest.TestCase):
         self.assertEqual(self.gas_price * self.gas_limit, notify['States'][3])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_transfer_from_tx(self):
         acct2_b58_address = acct2.get_address_base58()
         tx_hash = await sdk.native_vm.aio_ont().transfer_from(acct2, acct1.get_address(), acct2_b58_address, 1, acct2,
@@ -123,14 +123,14 @@ class TestAioOnt(unittest.TestCase):
         self.assertEqual(1, notify['States'][3])
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_approve(self):
         tx_hash = await sdk.native_vm.aio_ont().approve(acct1, acct2.get_address(), 10, acct2, self.gas_price,
                                                         self.gas_limit)
         self.assertEqual(64, len(tx_hash))
 
     @not_panic_exception
-    @Ontology.runner
+    @DNA.runner
     async def test_transfer_from(self):
         sdk.rpc.connect_to_test_net()
         b58_from_address = acct1.get_address_base58()

@@ -22,14 +22,14 @@ coverage:
 	pipenv install codacy-coverage --dev
 	pipenv install coverage --dev
 	coverage run -m unittest discover
-	coverage xml --include=ontology/* --omit=tests/*
+	coverage xml --include=dna/* --omit=tests/*
 	python-codacy-coverage -r coverage.xml
 
 ci-coverage:
 	pip3 install codacy-coverage
 	pip3 install coverage
 	coverage run -m unittest discover
-	coverage xml --include=ontology/* --omit=tests/*
+	coverage xml --include=dna/* --omit=tests/*
 	python-codacy-coverage -r coverage.xml
 
 build:

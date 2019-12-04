@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#
+# SPDX-License-Identifier: LGPL-3.0-or-later
+# Copyright 2019 DNA Dev team
+#
 """
 Copyright (C) 2018-2019 The ontology Authors
 This file is part of The ontology library.
@@ -28,15 +32,15 @@ with codecs.open(path.join(getcwd(), 'README.md')) as f:
     long_description = f.read()
 
 setup(
-    name='ontology-python-sdk',
+    name='dna-python-sdk',
     version='2.1.0.RC4',
-    description='Comprehensive Python library for the Ontology BlockChain.',
+    description='Comprehensive Python library for the DNA BlockChain.',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author='Ontology',
-    author_email='contact@ont.io',
-    maintainer='NashMiao',
-    maintainer_email='wdx7266@outlook.com',
+    author='DNA Dev Team',
+    author_email='contact@dna.io',
+    maintainer='Honglei',
+    maintainer_email='conghonglei@onchain.com',
     license='GNU Lesser General Public License v3 (LGPLv3)',
     packages=find_packages(exclude=['test_*.py', 'tests']),
     install_requires=[
@@ -51,7 +55,7 @@ setup(
     ],
     python_requires='>=3.6',
     platforms=["all"],
-    url='https://github.com/ontio/ontology-python-sdk',
+    url='https://github.com/dnaproject/dna-python-sdk',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Operating System :: OS Independent',

@@ -1,3 +1,7 @@
+#
+# SPDX-License-Identifier: LGPL-3.0-or-later
+# Copyright 2019 DNA Dev team
+#
 from typing import Union
 
 from ontology.vm.op_code import PUSHBYTES75, PUSHDATA1, PUSHDATA2, PUSHDATA4

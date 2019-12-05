@@ -92,18 +92,6 @@ class Rpc(object):
     def connect_to_localhost(self):
         self.set_address('http://localhost:20336')
 
-    def connect_to_test_net(self, index: int = 0):
-        if index == 0:
-            index = randint(1, 5)
-        rpc_address = f'http://polaris{index}.ont.io:20336'
-        self.set_address(rpc_address)
-
-    def connect_to_main_net(self, index: int = 0):
-        if index == 0:
-            index = randint(1, 4)
-        rpc_address = f'http://dappnode{index}.ont.io:20336'
-        self.set_address(rpc_address)
-
     @staticmethod
     def __post(url, payload):
         header = {'Content-type': 'application/json'}
@@ -314,20 +302,6 @@ class Rpc(object):
         if is_full:
             return response
         return response['result']
-
-    def get_unbound_ong(self, b58_address: str, is_full: bool = False):
-        payload = self.generate_json_rpc_payload(RpcMethod.GET_UNBOUND_ONG, [b58_address])
-        response = self.__post(self._url, payload)
-        if is_full:
-            return response
-        return int(response['result'])
-
-    def get_grant_ong(self, b58_address: str, is_full: bool = False):
-        payload = self.generate_json_rpc_payload(RpcMethod.GET_GRANT_ONG, [b58_address])
-        response = self.__post(self._url, payload)
-        if is_full:
-            return response
-        return int(response['result'])
 
     def get_allowance(self, asset_name: str, from_address: str, to_address: str, is_full: bool = False) -> str:
         """

@@ -88,7 +88,7 @@ class TestRestful(unittest.TestCase):
             network_id = sdk.restful.get_network_id()
             self.assertEqual(network_id, 1)
         finally:
-            sdk.restful.connect_to_test_net()
+            sdk.restful.connect_to_localhost()
 
     @not_panic_exception
     def test_get_block_by_hash(self):

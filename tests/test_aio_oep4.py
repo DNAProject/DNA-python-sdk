@@ -100,7 +100,7 @@ class TestOep4(unittest.TestCase):
             oep4.hex_contract_address = '6c80f3a5c183edee7693a038ca8c476fb0d6ac91'
             self.assertEqual(10000000000, await oep4.total_supply())
         finally:
-            sdk.default_aio_network.connect_to_test_net()
+            sdk.default_aio_network.connect_to_localhost()
 
     @not_panic_exception
     @DNA.runner

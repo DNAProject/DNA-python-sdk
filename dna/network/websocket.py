@@ -60,18 +60,6 @@ class Websocket(object):
     def connect_to_localhost(self):
         self.set_address('ws://localhost:20335')
 
-    def connect_to_test_net(self, index: int = 0):
-        if index == 0:
-            index = randint(1, 5)
-        restful_address = f'ws://polaris{index}.ont.io:20335'
-        self.set_address(restful_address)
-
-    def connect_to_main_net(self, index: int = 0):
-        if index == 0:
-            index = randint(1, 3)
-        restful_address = f'ws://dappnode{index}.ont.io:20335'
-        self.set_address(restful_address)
-
     async def connect(self):
         try:
             self.__ws_client = await client.connect(self.__url)

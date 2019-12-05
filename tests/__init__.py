@@ -29,11 +29,11 @@ from dna.exception.exception import SDKException
 from dna.sdk import DNA
 
 sdk = DNA()
-sdk.rpc.connect_to_test_net()
-sdk.aio_rpc.connect_to_test_net()
-sdk.restful.connect_to_test_net()
-sdk.aio_restful.connect_to_test_net()
-sdk.websocket.connect_to_test_net()
+sdk.rpc.connect_to_localhost()
+sdk.aio_rpc.connect_to_localhost()
+sdk.restful.connect_to_localhost()
+sdk.aio_restful.connect_to_localhost()
+sdk.websocket.connect_to_localhost()
 
 password = environ['SDK_TEST_PASSWORD']
 wallet_path = path.join(path.dirname(__file__), 'test_wallet.json')

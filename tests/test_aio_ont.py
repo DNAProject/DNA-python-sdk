@@ -132,7 +132,7 @@ class TestAioOnt(unittest.TestCase):
     @not_panic_exception
     @DNA.runner
     async def test_transfer_from(self):
-        sdk.rpc.connect_to_test_net()
+        sdk.rpc.connect_to_localhost()
         b58_from_address = acct1.get_address_base58()
         b58_recv_address = acct2.get_address_base58()
         ont = sdk.native_vm.aio_ont()

@@ -92,7 +92,7 @@ class TestAioRestful(unittest.TestCase):
             network_id = await sdk.aio_restful.get_network_id()
             self.assertEqual(network_id, 1)
         finally:
-            sdk.aio_restful.connect_to_test_net()
+            sdk.aio_restful.connect_to_localhost()
 
     @not_panic_exception
     @DNA.runner
@@ -151,7 +151,7 @@ class TestAioRestful(unittest.TestCase):
             self.assertEqual('Youle_le_service@fosun.com', contract.get('Email', ''))
             self.assertEqual('chentao', contract.get('Author', ''))
         finally:
-            sdk.aio_restful.connect_to_test_net()
+            sdk.aio_restful.connect_to_localhost()
 
     @not_panic_exception
     @DNA.runner

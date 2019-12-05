@@ -72,7 +72,7 @@ class TestAioOntId(unittest.TestCase):
             ont_id = 'did:ont:ATZhaVirdEYkpsHQDn9PMt5kDCq1VPHcTr'
             await self.check_pk_by_ont_id(ont_id)
         finally:
-            sdk.default_aio_network.connect_to_test_net()
+            sdk.default_aio_network.connect_to_localhost()
 
     @not_panic_exception
     @DNA.runner
@@ -81,13 +81,13 @@ class TestAioOntId(unittest.TestCase):
         try:
             await self.get_ddo_test_case(ont_id)
         finally:
-            sdk.default_aio_network.connect_to_test_net()
+            sdk.default_aio_network.connect_to_localhost()
         try:
             sdk.default_aio_network.connect_to_main_net()
             ont_id = 'did:ont:AP8n55wdQCRePFiNiR4kobGBhvBCMkVPun'
             await self.get_ddo_test_case(ont_id)
         finally:
-            sdk.default_aio_network.connect_to_test_net()
+            sdk.default_aio_network.connect_to_localhost()
 
     @not_panic_exception
     @DNA.runner

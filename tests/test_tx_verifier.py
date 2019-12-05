@@ -37,10 +37,10 @@ class TestMerkleVerifier(unittest.TestCase):
         try:
             sdk.rpc.connect_to_main_net()
             self.check_tx_in_block(0)
-            sdk.rpc.connect_to_test_net()
+            sdk.rpc.connect_to_localhost()
             self.check_tx_in_block(0)
         finally:
-            sdk.rpc.connect_to_test_net()
+            sdk.rpc.connect_to_localhost()
 
     @not_panic_exception
     def test_verify_by_tx_hash(self):
@@ -53,7 +53,7 @@ class TestMerkleVerifier(unittest.TestCase):
                 sdk.rpc.connect_to_main_net()
                 self.assertTrue(sdk.service.tx_verifier().verify_by_tx_hash(tx_hash))
             finally:
-                sdk.rpc.connect_to_test_net()
+                sdk.rpc.connect_to_localhost()
 
 
 if __name__ == '__main__':

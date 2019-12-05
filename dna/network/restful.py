@@ -148,18 +148,6 @@ class Restful(object):
     def connect_to_localhost(self):
         self.set_address('http://localhost:20334')
 
-    def connect_to_test_net(self, index: int = 0):
-        if index == 0:
-            index = randint(1, 5)
-        restful_address = f'http://polaris{index}.ont.io:20334'
-        self.set_address(restful_address)
-
-    def connect_to_main_net(self, index: int = 0):
-        if index == 0:
-            index = randint(1, 3)
-        restful_address = f'http://dappnode{index}.ont.io:20334'
-        self.set_address(restful_address)
-
     def __post(self, url: str, data: str):
         try:
             response = requests.post(url, data=data, timeout=10)
@@ -274,20 +262,6 @@ class Restful(object):
         if is_full:
             return response
         return response['Result']
-
-    def get_unbound_ong(self, b58_address: str, is_full: bool = False):
-        url = RestfulMethod.get_unbound_ong(self._url, b58_address)
-        response = self.__get(url)
-        if is_full:
-            return response
-        return int(response['Result'])
-
-    def get_grant_ong(self, b58_address: str, is_full: bool = False):
-        url = RestfulMethod.get_grant_ong(self._url, b58_address)
-        response = self.__get(url)
-        if is_full:
-            return response
-        return int(response['Result'])
 
     def get_allowance(self, asset: str, b58_from_address: str, b58_to_address: str, is_full: bool = False):
         url = RestfulMethod.get_allowance(self._url, asset, b58_from_address, b58_to_address)

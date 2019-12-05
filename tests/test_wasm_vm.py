@@ -74,7 +74,7 @@ class TestWasmVm(unittest.TestCase):
                                                      self.desc, self.gas_price, self.gas_limit,
                                                      acct2.get_address_base58())
             tx.sign_transaction(acct2)
-            sdk.rpc.connect_to_test_net()
+            sdk.rpc.connect_to_localhost()
             result = sdk.rpc.send_raw_transaction_pre_exec(tx)
             self.assertEqual(1, result['State'])
 

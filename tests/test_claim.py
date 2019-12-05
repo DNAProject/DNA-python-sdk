@@ -209,7 +209,7 @@ class TestClaim(unittest.TestCase):
             self.assertTrue(claim.validate_blk_proof())
             self.assertTrue(isinstance(claim, Claim))
         finally:
-            sdk.default_network.connect_to_test_net()
+            sdk.default_network.connect_to_localhost()
 
 
 if __name__ == '__main__':

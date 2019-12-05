@@ -67,7 +67,7 @@ class TestRpcClient(unittest.TestCase):
             network_id = sdk.rpc.get_network_id()
             self.assertEqual(1, network_id)
         finally:
-            sdk.rpc.connect_to_test_net()
+            sdk.rpc.connect_to_localhost()
 
     @not_panic_exception
     def test_get_block_by_hash(self):
@@ -212,7 +212,7 @@ class TestRpcClient(unittest.TestCase):
             self.assertEqual('Youle_le_service@fosun.com', contract.get('Email', ''))
             self.assertEqual('chentao', contract.get('Author', ''))
         finally:
-            sdk.rpc.connect_to_test_net()
+            sdk.rpc.connect_to_localhost()
 
     @not_panic_exception
     def test_get_merkle_proof(self):

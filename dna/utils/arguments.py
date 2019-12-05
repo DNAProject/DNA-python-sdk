@@ -28,7 +28,7 @@ from dna.exception.error_code import ErrorCode
 from dna.exception.exception import SDKException
 
 
-def check_ont_id(func):
+def check_did(func):
     if __debug__ is False:
         return func
 

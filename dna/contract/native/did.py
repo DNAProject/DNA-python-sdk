@@ -27,7 +27,7 @@ from dna.crypto.curve import Curve
 from dna.common.address import Address
 from dna.crypto.key_type import KeyType
 from dna.account.account import Account
-from dna.utils.arguments import check_ont_id
+from dna.utils.arguments import check_did
 from dna.core.transaction import Transaction, TxType
 from dna.io.binary_reader import BinaryReader
 from dna.io.memory_stream import StreamManager
@@ -61,7 +61,7 @@ class Attribute(object):
         return attrib_dict
 
 
-class OntId(object):
+class DID(object):
     def __init__(self, sdk=None):
         self._sdk = sdk
         self._version = b'\x00'
@@ -72,7 +72,7 @@ class OntId(object):
         return bytes.hex(self._contract_address[::-1])
 
     @staticmethod
-    def parse_pub_keys(ont_id: str, raw_pub_keys: str or bytes) -> list:
+    def parse_pub_keys(did: str, raw_pub_keys: str or bytes) -> list:
         if isinstance(raw_pub_keys, str):
             stream = StreamManager.get_stream(bytearray.fromhex(raw_pub_keys))
         elif isinstance(raw_pub_keys, bytes):
@@ -83,7 +83,7 @@ class OntId(object):
         pub_keys = list()
         while True:
             try:
-                kid = f'{ont_id}#keys-{reader.read_int32()}'
+                kid = f'{did}#keys-{reader.read_int32()}'
                 bytes_key = reader.read_var_bytes()
                 hex_pub_key = bytes_key.hex()
                 if len(bytes_key) == 33:
@@ -127,11 +127,11 @@ class OntId(object):
         return attributes_list
 
     @staticmethod
-    def parse_ddo(ont_id: str, serialized_ddo: str or bytes) -> dict:
+    def parse_ddo(did: str, serialized_ddo: str or bytes) -> dict:
         """
         This interface is used to deserialize a hexadecimal string into a DDO object in the from of dict.
 
-        :param ont_id: the unique ID for identity.
+        :param did: the unique ID for identity.
         :param serialized_ddo: an serialized description object of ONT ID in form of str or bytes.
         :return: a description object of ONT ID in the from of dict.
         """
@@ -160,9 +160,9 @@ class OntId(object):
             b58_recovery = Address(recovery_bytes).b58encode()
         else:
             b58_recovery = ''
-        pub_keys = OntId.parse_pub_keys(ont_id, public_key_bytes)
-        attribute_list = OntId.parse_attributes(attribute_bytes)
-        ddo = dict(Owners=pub_keys, Attributes=attribute_list, Recovery=b58_recovery, OntId=ont_id)
+        pub_keys = DID.parse_pub_keys(did, public_key_bytes)
+        attribute_list = DID.parse_attributes(attribute_bytes)
+        ddo = dict(Owners=pub_keys, Attributes=attribute_list, Recovery=b58_recovery, DID=did)
         return ddo
 
     def _generate_transaction(self, method: str, args: dict, payer: Union[str, bytes, Address], gas_price: int,
@@ -170,46 +170,46 @@ class OntId(object):
         invoke_code = build_vm.build_native_invoke_code(self._contract_address, self._version, method, args)
         return InvokeTransaction(payer, gas_price, gas_limit, invoke_code)
 
-    @check_ont_id
-    def get_public_keys(self, ont_id: str):
-        args = dict(ontid=ont_id.encode('utf-8'))
+    @check_did
+    def get_public_keys(self, did: str):
+        args = dict(did=did.encode('utf-8'))
         invoke_code = build_vm.build_native_invoke_code(self._contract_address, self._version, 'getPublicKeys', args)
         tx = Transaction(0, TxType.InvokeNeoVm, 0, 0, b'', invoke_code)
         response = self._sdk.default_network.send_raw_transaction_pre_exec(tx)
-        pub_keys = OntId.parse_pub_keys(ont_id, response['Result'])
+        pub_keys = DID.parse_pub_keys(did, response['Result'])
         return pub_keys
 
-    @check_ont_id
-    def get_ddo(self, ont_id: str) -> dict:
+    @check_did
+    def get_ddo(self, did: str) -> dict:
         """
         This interface is used to get a DDO object in the from of dict.
 
-        :param ont_id: the unique ID for identity.
+        :param did: the unique ID for identity.
         :return: a description object of ONT ID in the from of dict.
         """
-        args = dict(ontid=ont_id.encode('utf-8'))
+        args = dict(did=did.encode('utf-8'))
         invoke_code = build_vm.build_native_invoke_code(self._contract_address, self._version, 'getDDO', args)
         tx = Transaction(0, TxType.InvokeNeoVm, 0, 0, b'', invoke_code)
         response = self._sdk.default_network.send_raw_transaction_pre_exec(tx)
-        ddo = OntId.parse_ddo(ont_id, response['Result'])
+        ddo = DID.parse_ddo(did, response['Result'])
         return ddo
 
-    @check_ont_id
-    def registry_ont_id(self, ont_id: str, ctrl_acct: Account, payer: Account, gas_price: int, gas_limit: int):
+    @check_did
+    def registry_did(self, did: str, ctrl_acct: Account, payer: Account, gas_price: int, gas_limit: int):
         """
-        This interface is used to send a Transaction object which is used to registry ontid.
+        This interface is used to send a Transaction object which is used to registry did.
         """
         if not isinstance(ctrl_acct, Account) or not isinstance(payer, Account):
             raise SDKException(ErrorCode.require_acct_params)
         b58_payer_address = payer.get_address_base58()
         bytes_ctrl_pub_key = ctrl_acct.get_public_key_bytes()
-        tx = self.new_registry_ont_id_tx(ont_id, bytes_ctrl_pub_key, b58_payer_address, gas_price, gas_limit)
+        tx = self.new_registry_did_tx(did, bytes_ctrl_pub_key, b58_payer_address, gas_price, gas_limit)
         tx.sign_transaction(ctrl_acct)
         tx.add_sign_transaction(payer)
         return self._sdk.default_network.send_raw_transaction(tx)
 
-    @check_ont_id
-    def add_public_key(self, ont_id: str, operator: Account, hex_new_public_key: str, payer: Account, gas_price: int,
+    @check_did
+    def add_public_key(self, did: str, operator: Account, hex_new_public_key: str, payer: Account, gas_price: int,
                        gas_limit: int, is_recovery: bool = False):
         """
         This interface is used to send a Transaction object which is used to add public key.
@@ -221,14 +221,14 @@ class OntId(object):
         else:
             bytes_operator = operator.get_public_key_bytes()
         b58_payer_address = payer.get_address_base58()
-        tx = self.new_add_public_key_tx(ont_id, bytes_operator, hex_new_public_key, b58_payer_address, gas_price,
+        tx = self.new_add_public_key_tx(did, bytes_operator, hex_new_public_key, b58_payer_address, gas_price,
                                         gas_limit, is_recovery)
         tx.sign_transaction(operator)
         tx.add_sign_transaction(payer)
         return self._sdk.default_network.send_raw_transaction(tx)
 
-    @check_ont_id
-    def revoke_public_key(self, ont_id: str, operator: Account, revoked_pub_key: str, payer: Account,
+    @check_did
+    def revoke_public_key(self, did: str, operator: Account, revoked_pub_key: str, payer: Account,
                           gas_limit: int, gas_price: int, is_recovery: bool = False):
         """
         This interface is used to send a Transaction object which is used to remove public key.
@@ -240,14 +240,14 @@ class OntId(object):
             bytes_operator = operator.get_address_bytes()
         else:
             bytes_operator = operator.get_public_key_bytes()
-        tx = self.new_revoke_public_key_tx(ont_id, bytes_operator, revoked_pub_key, b58_payer_address, gas_limit,
+        tx = self.new_revoke_public_key_tx(did, bytes_operator, revoked_pub_key, b58_payer_address, gas_limit,
                                            gas_price)
         tx.sign_transaction(operator)
         tx.add_sign_transaction(payer)
         return self._sdk.default_network.send_raw_transaction(tx)
 
-    @check_ont_id
-    def add_attribute(self, ont_id: str, ctrl_acct: Account, attributes: Attribute, payer: Account, gas_price: int,
+    @check_did
+    def add_attribute(self, did: str, ctrl_acct: Account, attributes: Attribute, payer: Account, gas_price: int,
                       gas_limit: int) -> str:
         """
         This interface is used to send a Transaction object which is used to add attribute.
@@ -256,56 +256,56 @@ class OntId(object):
             raise SDKException(ErrorCode.require_acct_params)
         pub_key = ctrl_acct.get_public_key_bytes()
         b58_payer_address = payer.get_address_base58()
-        tx = self.new_add_attribute_tx(ont_id, pub_key, attributes, b58_payer_address, gas_price, gas_limit)
+        tx = self.new_add_attribute_tx(did, pub_key, attributes, b58_payer_address, gas_price, gas_limit)
         tx.sign_transaction(ctrl_acct)
         tx.add_sign_transaction(payer)
         tx_hash = self._sdk.default_network.send_raw_transaction(tx)
         return tx_hash
 
-    @check_ont_id
-    def remove_attribute(self, ont_id: str, operator: Account, attrib_key: str, payer: Account, gas_price: int,
+    @check_did
+    def remove_attribute(self, did: str, operator: Account, attrib_key: str, payer: Account, gas_price: int,
                          gas_limit: int):
         """
         This interface is used to send a Transaction object which is used to remove attribute.
         """
         pub_key = operator.get_public_key_bytes()
         b58_payer_address = payer.get_address_base58()
-        tx = self.new_remove_attribute_tx(ont_id, pub_key, attrib_key, b58_payer_address, gas_price, gas_limit)
+        tx = self.new_remove_attribute_tx(did, pub_key, attrib_key, b58_payer_address, gas_price, gas_limit)
         tx.sign_transaction(operator)
         tx.add_sign_transaction(payer)
         return self._sdk.default_network.send_raw_transaction(tx)
 
-    @check_ont_id
-    def add_recovery(self, ont_id: str, ctrl_acct: Account, b58_recovery_address: str, payer: Account, gas_price: int,
+    @check_did
+    def add_recovery(self, did: str, ctrl_acct: Account, b58_recovery_address: str, payer: Account, gas_price: int,
                      gas_limit: int):
         """
         This interface is used to send a Transaction object which is used to add the recovery.
         """
         b58_payer_address = payer.get_address_base58()
         pub_key = ctrl_acct.get_public_key_bytes()
-        tx = self.new_add_recovery_tx(ont_id, pub_key, b58_recovery_address, b58_payer_address, gas_price, gas_limit)
+        tx = self.new_add_recovery_tx(did, pub_key, b58_recovery_address, b58_payer_address, gas_price, gas_limit)
         tx.sign_transaction(ctrl_acct)
         tx.add_sign_transaction(payer)
         tx_hash = self._sdk.default_network.send_raw_transaction(tx)
         return tx_hash
 
-    @check_ont_id
-    def change_recovery(self, ont_id: str, b58_new_recovery_address: str, recovery: Account, payer: Account,
+    @check_did
+    def change_recovery(self, did: str, b58_new_recovery_address: str, recovery: Account, payer: Account,
                         gas_price: int, gas_limit: int):
         b58_payer_address = payer.get_address_base58()
         b58_recovery_address = recovery.get_address_base58()
-        tx = self.new_change_recovery_tx(ont_id, b58_new_recovery_address, b58_recovery_address,
+        tx = self.new_change_recovery_tx(did, b58_new_recovery_address, b58_recovery_address,
                                          b58_payer_address, gas_price, gas_limit)
         tx.sign_transaction(recovery)
         tx.add_sign_transaction(payer)
         tx_hash = self._sdk.default_network.send_raw_transaction(tx)
         return tx_hash
 
-    @check_ont_id
-    def verify_signature(self, ont_id: str, key_index: int, sign_acct: Account) -> bool:
+    @check_did
+    def verify_signature(self, did: str, key_index: int, sign_acct: Account) -> bool:
         if key_index < 1:
             raise SDKException(ErrorCode.param_err('Invalid key index.'))
-        tx = self.new_verify_signature_tx(ont_id, key_index)
+        tx = self.new_verify_signature_tx(did, key_index)
         tx.sign_transaction(sign_acct)
         try:
             self._sdk.default_network.send_raw_transaction_pre_exec(tx)
@@ -316,25 +316,25 @@ class OntId(object):
                 raise e
         return True
 
-    @check_ont_id
-    def new_verify_signature_tx(self, ont_id: str, key_index: int) -> InvokeTransaction:
+    @check_did
+    def new_verify_signature_tx(self, did: str, key_index: int) -> InvokeTransaction:
         if key_index < 1:
             raise SDKException(ErrorCode.param_err('Invalid key index.'))
-        args = dict(ontid=ont_id.encode('utf-8'), index=key_index)
+        args = dict(did=did.encode('utf-8'), index=key_index)
         tx = self._generate_transaction('verifySignature', args, b'', 0, 0)
         return tx
 
-    @check_ont_id
-    def new_change_recovery_tx(self, ont_id: str, b58_new_recovery_address: str, b58_recovery_address: str,
+    @check_did
+    def new_change_recovery_tx(self, did: str, b58_new_recovery_address: str, b58_recovery_address: str,
                                payer: Union[str, bytes, Address], gas_price: int, gas_limit: int) -> InvokeTransaction:
         bytes_new_recovery = Address.b58decode(b58_new_recovery_address).to_bytes()
         bytes_recovery = Address.b58decode(b58_recovery_address).to_bytes()
-        args = dict(ontid=ont_id.encode('utf-8'), new_recovery=bytes_new_recovery, recovery=bytes_recovery)
+        args = dict(did=did.encode('utf-8'), new_recovery=bytes_new_recovery, recovery=bytes_recovery)
         tx = self._generate_transaction('changeRecovery', args, payer, gas_price, gas_limit)
         return tx
 
-    @check_ont_id
-    def new_registry_ont_id_tx(self, ont_id: str, pub_key: str or bytes, payer: Union[str, bytes, Address],
+    @check_did
+    def new_registry_did_tx(self, did: str, pub_key: str or bytes, payer: Union[str, bytes, Address],
                                gas_price: int, gas_limit: int) -> InvokeTransaction:
         """
         This interface is used to generate a Transaction object which is used to register ONT ID.
@@ -345,12 +345,12 @@ class OntId(object):
             bytes_ctrl_pub_key = pub_key
         else:
             raise SDKException(ErrorCode.param_err('a bytes or str type of public key is required.'))
-        args = dict(ontid=ont_id.encode('utf-8'), ctrl_pk=bytes_ctrl_pub_key)
+        args = dict(did=did.encode('utf-8'), ctrl_pk=bytes_ctrl_pub_key)
         tx = self._generate_transaction('regIDWithPublicKey', args, payer, gas_price, gas_limit)
         return tx
 
-    @check_ont_id
-    def new_add_public_key_tx(self, ont_id: str, bytes_operator: bytes, new_pub_key: str or bytes,
+    @check_did
+    def new_add_public_key_tx(self, did: str, bytes_operator: bytes, new_pub_key: str or bytes,
                               payer: Union[str, bytes, Address], gas_price: int, gas_limit: int,
                               is_recovery: bool = False) -> InvokeTransaction:
         """
@@ -363,14 +363,14 @@ class OntId(object):
         else:
             raise SDKException(ErrorCode.params_type_error('a bytes or str type of public key is required.'))
         if is_recovery:
-            args = dict(ontid=ont_id, pk=bytes_new_pub_key, operator=bytes_operator)
+            args = dict(did=did, pk=bytes_new_pub_key, operator=bytes_operator)
         else:
-            args = dict(ontid=ont_id, pk=bytes_new_pub_key, operator=bytes_operator)
+            args = dict(did=did, pk=bytes_new_pub_key, operator=bytes_operator)
         tx = self._generate_transaction('addKey', args, payer, gas_price, gas_limit)
         return tx
 
-    @check_ont_id
-    def new_revoke_public_key_tx(self, ont_id: str, bytes_operator: bytes, revoked_pub_key: str or bytes,
+    @check_did
+    def new_revoke_public_key_tx(self, did: str, bytes_operator: bytes, revoked_pub_key: str or bytes,
                                  payer: Union[str, bytes, Address], gas_price: int,
                                  gas_limit: int) -> InvokeTransaction:
         """
@@ -382,13 +382,13 @@ class OntId(object):
             bytes_revoked_pub_key = revoked_pub_key
         else:
             raise SDKException(ErrorCode.params_type_error('a bytes or str type of public key is required.'))
-        bytes_ont_id = ont_id.encode('utf-8')
-        args = dict(ontid=bytes_ont_id, pk=bytes_revoked_pub_key, operator=bytes_operator)
+        bytes_did = did.encode('utf-8')
+        args = dict(did=bytes_did, pk=bytes_revoked_pub_key, operator=bytes_operator)
         tx = self._generate_transaction('removeKey', args, payer, gas_price, gas_limit)
         return tx
 
-    @check_ont_id
-    def new_add_attribute_tx(self, ont_id: str, pub_key: str or bytes, attributes: Attribute,
+    @check_did
+    def new_add_attribute_tx(self, did: str, pub_key: str or bytes, attributes: Attribute,
                              payer: Union[str, bytes, Address], gas_price: int, gas_limit: int) -> InvokeTransaction:
         """
         This interface is used to generate a Transaction object which is used to add attribute.
@@ -399,16 +399,16 @@ class OntId(object):
             bytes_pub_key = pub_key
         else:
             raise SDKException(ErrorCode.params_type_error('a bytes or str type of public key is required.'))
-        bytes_ont_id = ont_id.encode('utf-8')
-        args = dict(ontid=bytes_ont_id)
+        bytes_did = did.encode('utf-8')
+        args = dict(did=bytes_did)
         attrib_dict = attributes.to_dict()
         args = dict(**args, **attrib_dict)
         args['pubkey'] = bytes_pub_key
         tx = self._generate_transaction('addAttributes', args, payer, gas_price, gas_limit)
         return tx
 
-    @check_ont_id
-    def new_remove_attribute_tx(self, ont_id: str, pub_key: str or bytes, attrib_key: str,
+    @check_did
+    def new_remove_attribute_tx(self, did: str, pub_key: str or bytes, attrib_key: str,
                                 payer: Union[str, bytes, Address], gas_price: int, gas_limit: int) -> InvokeTransaction:
         """
         This interface is used to generate a Transaction object which is used to remove attribute.
@@ -419,12 +419,12 @@ class OntId(object):
             bytes_pub_key = pub_key
         else:
             raise SDKException(ErrorCode.params_type_error('a bytes or str type of public key is required.'))
-        args = dict(ontid=ont_id.encode('utf-8'), attrib_key=attrib_key.encode('utf-8'), pk=bytes_pub_key)
+        args = dict(did=did.encode('utf-8'), attrib_key=attrib_key.encode('utf-8'), pk=bytes_pub_key)
         tx = self._generate_transaction('removeAttribute', args, payer, gas_price, gas_limit)
         return tx
 
-    @check_ont_id
-    def new_add_recovery_tx(self, ont_id: str, pub_key: str or bytes, b58_recovery_address: str,
+    @check_did
+    def new_add_recovery_tx(self, did: str, pub_key: str or bytes, b58_recovery_address: str,
                             payer: Union[str, bytes, Address], gas_price: int,
                             gas_limit: int) -> InvokeTransaction:
         """
@@ -437,6 +437,6 @@ class OntId(object):
         else:
             raise SDKException(ErrorCode.params_type_error('a bytes or str type of public key is required.'))
         bytes_recovery_address = Address.b58decode(b58_recovery_address).to_bytes()
-        args = dict(ontid=ont_id.encode('utf-8'), recovery=bytes_recovery_address, pk=bytes_pub_key)
+        args = dict(did=did.encode('utf-8'), recovery=bytes_recovery_address, pk=bytes_pub_key)
         tx = self._generate_transaction('addRecovery', args, payer, gas_price, gas_limit)
         return tx

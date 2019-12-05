@@ -58,12 +58,12 @@ class TestOntId(unittest.TestCase):
 
     @not_panic_exception
     def test_get_public_keys(self):
-        ont_id_list = ['did:ont:APywVQ2UKBtitqqJQ9JrpNeY8VFAnrZXiR', 'did:ont:ANDfjwrUroaVtvBguDtrWKRMyxFwvVwnZD']
+        ont_id_list = ['did:dna:APywVQ2UKBtitqqJQ9JrpNeY8VFAnrZXiR', 'did:dna:ANDfjwrUroaVtvBguDtrWKRMyxFwvVwnZD']
         for ont_id in ont_id_list:
             self.check_pk_by_ont_id(ont_id)
         try:
             sdk.default_network.connect_to_main_net()
-            ont_id = 'did:ont:ATZhaVirdEYkpsHQDn9PMt5kDCq1VPHcTr'
+            ont_id = 'did:dna:ATZhaVirdEYkpsHQDn9PMt5kDCq1VPHcTr'
             self.check_pk_by_ont_id(ont_id)
         finally:
             sdk.default_network.connect_to_localhost()
@@ -76,18 +76,18 @@ class TestOntId(unittest.TestCase):
             self.assertEqual('ECDSA', pk['Type'])
             self.assertEqual('P256', pk['Curve'])
             self.assertEqual(66, len(pk['Value']))
-        self.assertEqual(ont_id, ddo['OntId'])
+        self.assertEqual(ont_id, ddo['DID'])
 
     @not_panic_exception
     def test_get_ddo(self):
-        ont_id = 'did:ont:AazEvfQPcQ2GEFFPLF1ZLwQ7K5jDn81hve'
+        ont_id = 'did:dna:AazEvfQPcQ2GEFFPLF1ZLwQ7K5jDn81hve'
         try:
             self.get_ddo_test_case(ont_id)
         finally:
             sdk.default_network.connect_to_localhost()
         try:
             sdk.default_network.connect_to_main_net()
-            ont_id = 'did:ont:AP8n55wdQCRePFiNiR4kobGBhvBCMkVPun'
+            ont_id = 'did:dna:AP8n55wdQCRePFiNiR4kobGBhvBCMkVPun'
             self.get_ddo_test_case(ont_id)
         finally:
             sdk.default_network.connect_to_localhost()
@@ -209,7 +209,7 @@ class TestOntId(unittest.TestCase):
         ont_id = sdk.native_vm.ont_id()
         hex_public_key = acct2.get_public_key_hex()
         b58_address = acct2.get_address_base58()
-        acct_did = "did:ont:" + b58_address
+        acct_did = "did:dna:" + b58_address
         path = 'try'
         tx = ont_id.new_remove_attribute_tx(acct_did, hex_public_key, path, b58_address, self.gas_price, self.gas_limit)
         tx.sign_transaction(acct2)
@@ -256,7 +256,7 @@ class TestOntId(unittest.TestCase):
         self.assertEqual(ctrl_acct.get_public_key_hex(), ddo['Owners'][0]['Value'])
         self.assertEqual(0, len(ddo['Attributes']))
         self.assertEqual(recovery.get_address_base58(), ddo['Recovery'])
-        self.assertEqual(identity.ont_id, ddo['OntId'])
+        self.assertEqual(identity.ont_id, ddo['DID'])
 
         rand_private_key = utils.get_random_bytes(32).hex()
         new_recovery = Account(rand_private_key, SignatureScheme.SHA256withECDSA)
@@ -285,7 +285,7 @@ class TestOntId(unittest.TestCase):
         self.assertEqual(hex_new_public_key, ddo['Owners'][1]['Value'])
         self.assertEqual(0, len(ddo['Attributes']))
         self.assertEqual(recovery.get_address_base58(), ddo['Recovery'])
-        self.assertEqual(identity.ont_id, ddo['OntId'])
+        self.assertEqual(identity.ont_id, ddo['DID'])
         self.assertEqual(b58_recovery_address, ddo['Recovery'])
 
         tx_hash = sdk.native_vm.ont_id().revoke_public_key(identity.ont_id, recovery, hex_new_public_key, acct3,
@@ -337,7 +337,7 @@ class TestOntId(unittest.TestCase):
         self.assertEqual(ctrl_acct.get_public_key_hex(), ddo['Owners'][0]['Value'])
         self.assertEqual(0, len(ddo['Attributes']))
         self.assertEqual(recovery.get_address_base58(), ddo['Recovery'])
-        self.assertEqual(identity.ont_id, ddo['OntId'])
+        self.assertEqual(identity.ont_id, ddo['DID'])
 
         rand_private_key = utils.get_random_bytes(32).hex()
         new_recovery = Account(rand_private_key, SignatureScheme.SHA256withECDSA)

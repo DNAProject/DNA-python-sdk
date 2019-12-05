@@ -64,12 +64,12 @@ class TestAioOntId(unittest.TestCase):
     @not_panic_exception
     @DNA.runner
     async def test_get_public_keys(self):
-        ont_id_list = ['did:ont:APywVQ2UKBtitqqJQ9JrpNeY8VFAnrZXiR', 'did:ont:ANDfjwrUroaVtvBguDtrWKRMyxFwvVwnZD']
+        ont_id_list = ['did:dna:APywVQ2UKBtitqqJQ9JrpNeY8VFAnrZXiR', 'did:dna:ANDfjwrUroaVtvBguDtrWKRMyxFwvVwnZD']
         for ont_id in ont_id_list:
             await self.check_pk_by_ont_id(ont_id)
         try:
             sdk.default_aio_network.connect_to_main_net()
-            ont_id = 'did:ont:ATZhaVirdEYkpsHQDn9PMt5kDCq1VPHcTr'
+            ont_id = 'did:dna:ATZhaVirdEYkpsHQDn9PMt5kDCq1VPHcTr'
             await self.check_pk_by_ont_id(ont_id)
         finally:
             sdk.default_aio_network.connect_to_localhost()
@@ -77,14 +77,14 @@ class TestAioOntId(unittest.TestCase):
     @not_panic_exception
     @DNA.runner
     async def test_get_ddo(self):
-        ont_id = 'did:ont:AazEvfQPcQ2GEFFPLF1ZLwQ7K5jDn81hve'
+        ont_id = 'did:dna:AazEvfQPcQ2GEFFPLF1ZLwQ7K5jDn81hve'
         try:
             await self.get_ddo_test_case(ont_id)
         finally:
             sdk.default_aio_network.connect_to_localhost()
         try:
             sdk.default_aio_network.connect_to_main_net()
-            ont_id = 'did:ont:AP8n55wdQCRePFiNiR4kobGBhvBCMkVPun'
+            ont_id = 'did:dna:AP8n55wdQCRePFiNiR4kobGBhvBCMkVPun'
             await self.get_ddo_test_case(ont_id)
         finally:
             sdk.default_aio_network.connect_to_localhost()

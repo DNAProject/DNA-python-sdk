@@ -64,7 +64,7 @@ class WalletData(object):
                         raise SDKException(ErrorCode.other_error('invalid parameters.'))
                     list_controls.append(ctrl)
                 try:
-                    identity = Identity(ont_id=dict_identity['ontid'], label=dict_identity['label'],
+                    identity = Identity(ont_id=dict_identity['did'], label=dict_identity['label'],
                                         lock=dict_identity['lock'], controls=list_controls, is_default=is_default)
                 except KeyError:
                     raise SDKException(ErrorCode.other_error('invalid parameters.'))

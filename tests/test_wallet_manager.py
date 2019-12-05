@@ -315,7 +315,7 @@ class TestWalletManager(unittest.TestCase):
             private_key = '75de8489fcb2dcaf2ef3cd607feffde18789de7da129b5e97c81e001793cb7cf'
             ide = wm.create_identity_from_private_key("ide", "1", private_key)
             self.assertEqual(ide.label, 'ide')
-            self.assertEqual(ide.ont_id, 'did:ont:AazEvfQPcQ2GEFFPLF1ZLwQ7K5jDn81hve')
+            self.assertEqual(ide.ont_id, 'did:dna:AazEvfQPcQ2GEFFPLF1ZLwQ7K5jDn81hve')
         finally:
             wm.del_wallet_file()
 

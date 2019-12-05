@@ -35,18 +35,18 @@ sdk.restful.connect_to_localhost()
 sdk.aio_restful.connect_to_localhost()
 sdk.websocket.connect_to_localhost()
 
-password = environ['SDK_TEST_PASSWORD']
+password = '1'
 wallet_path = path.join(path.dirname(__file__), 'test_wallet.json')
 wallet_manager = sdk.wallet_manager
 wallet_manager.open_wallet(wallet_path, is_create=False)
-acct1 = wallet_manager.get_account_by_b58_address('ANDfjwrUroaVtvBguDtrWKRMyxFwvVwnZD', password)
-acct2 = wallet_manager.get_account_by_b58_address('Af1n2cZHhMZumNqKgw9sfCNoTWu9de4NDn', password)
-acct3 = wallet_manager.get_account_by_b58_address('AXJZrP1jBRo398ebfyemsDxDaThsxcXGMk', password)
-acct4 = wallet_manager.get_account_by_b58_address('APvHaLmJUMdAHiVbFHGi11gnFpuK6ozD5j', password)
-ont_id_1 = 'did:ont:ANDfjwrUroaVtvBguDtrWKRMyxFwvVwnZD'
+acct1 = wallet_manager.get_account_by_b58_address('AXEcztb3H4LuSkMDFhRZA3QaNaPq23tThn', password)
+acct2 = wallet_manager.get_account_by_b58_address('AT32a8j6MCD8NRfLerw2mhUQ68CfJwHwCH', password)
+acct3 = wallet_manager.get_account_by_b58_address('AJkgPMUNBvQxm7V1mRRRLBRKT35vzDXwTc', password)
+acct4 = wallet_manager.get_account_by_b58_address('AZcb4gtuUNyZyBwQNn3ZZASNkR63Z3437r', password)
+ont_id_1 = 'did:dna:TVzQu3LvZiDbZQkAGewnGpzctrdmSg41Ct'
 identity1 = wallet_manager.get_identity_by_ont_id(ont_id_1)
 identity1_ctrl_acct = wallet_manager.get_control_account_by_index(ont_id_1, 0, password)
-ont_id_2 = 'did:ont:AP8XfCUo7w3qM4b5gyQU8AEyRSwgtDFSzp'
+ont_id_2 = 'did:dna:TTrL48YuxBuqvddCJmstCEty7ubaa4wVdz'
 identity2 = wallet_manager.get_identity_by_ont_id(ont_id_2)
 identity2_ctrl_acct = wallet_manager.get_control_account_by_index(ont_id_2, 0, password)
 wallet_manager.save()

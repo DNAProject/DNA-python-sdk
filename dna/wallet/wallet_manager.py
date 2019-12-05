@@ -112,7 +112,7 @@ class WalletManager(object):
             content = content.decode('utf-8')
             wallet_dict = json.loads(content)
             create_time = wallet_dict.get('createTime', '')
-            default_id = wallet_dict.get('defaultOntid', '')
+            default_id = wallet_dict.get('defaultDID', '')
             default_address = wallet_dict.get('defaultAccountAddress', '')
             identities = wallet_dict.get('identities', list())
             try:

@@ -35,14 +35,14 @@ class TestClaim(unittest.TestCase):
     def setUp(self):
         self.gas_price = 500
         self.gas_limit = 20000
-        self.kid = 'did:ont:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r#keys-1'
+        self.kid = 'did:dna:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r#keys-1'
         self.claim_header = Header(self.kid)
 
     def test_head_kid(self):
         self.assertEqual(self.kid, self.claim_header.kid)
         self.assertRaises(SDKException, setattr, self.claim_header, 'kid', 1)
         self.assertRaises(SDKException, setattr, self.claim_header, 'kid', 'test')
-        self.assertRaises(SDKException, setattr, self.claim_header, 'kid', 'did:ont:test')
+        self.assertRaises(SDKException, setattr, self.claim_header, 'kid', 'did:dna:test')
         self.kid = self.kid.replace('keys-1', 'keys-2')
         self.claim_header.kid = self.kid
         self.assertEqual(self.kid, self.claim_header.kid)
@@ -70,8 +70,8 @@ class TestClaim(unittest.TestCase):
 
     def test_payload(self):
         ver = '0.7.0'
-        iss = 'did:ont:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r'
-        sub = 'did:ont:SI59Js0zpNSiPOzBdB5cyxu80BO3cjGT70'
+        iss = 'did:dna:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r'
+        sub = 'did:dna:SI59Js0zpNSiPOzBdB5cyxu80BO3cjGT70'
         iat = 1525465044
         exp = 1530735444
         jti = '4d9546fdf2eb94a364208fa65a9996b03ba0ca4ab2f56d106dac92e891b6f7fc'
